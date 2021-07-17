@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 
 Widget appBarMain(BuildContext context) {
   return AppBar(
-    title: Image.asset(
-      "assets/images/logo.png",
-      height: 40,
-    ),
     elevation: 0.0,
     centerTitle: false,
   );
@@ -22,7 +18,7 @@ InputDecoration textFieldInputDecoration(String hintText) {
 }
 
 TextStyle simpleTextStyle() {
-  return TextStyle(color: Colors.white, fontSize: 16);
+  return TextStyle(color: Colors.white, fontSize: 12);
 }
 
 TextStyle biggerTextStyle() {
