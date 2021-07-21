@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chatapp/helper/constants.dart';
 import 'package:chatapp/services/database.dart';
 import 'package:chatapp/widget/widget.dart';
@@ -16,6 +18,7 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> {
   Stream<QuerySnapshot> chats;
   TextEditingController messageEditingController = new TextEditingController();
+  ScrollController _scrollController;
 
   Widget chatMessages() {
     return StreamBuilder(
@@ -24,6 +27,7 @@ class _ChatState extends State<Chat> {
         return snapshot.hasData
             ? ListView.builder(
                 //reverse: true,
+                controller: _scrollController,
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
                   return MessageTile(
@@ -46,11 +50,20 @@ class _ChatState extends State<Chat> {
       };
 
       DatabaseMethods().addMessage(widget.chatRoomId, chatMessageMap);
+      scrolltoB();
 
       setState(() {
         messageEditingController.text = "";
       });
     }
+  }
+
+  void scrolltoB() {
+    var bottomSet;
+    if (_scrollController.position != null)
+      bottomSet = _scrollController.position.maxScrollExtent;
+    _scrollController.animateTo(bottomSet,
+        duration: Duration(milliseconds: 1000), curve: Curves.easeInOut);
   }
 
   @override
@@ -60,7 +73,14 @@ class _ChatState extends State<Chat> {
         chats = val;
       });
     });
+    _scrollController = ScrollController();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -68,6 +88,11 @@ class _ChatState extends State<Chat> {
     return Scaffold(
       appBar: AppBar(
         title: Text("${widget.chatRoomId.toString()}"),
+        actions: [
+          IconButton(
+              onPressed: () => scrolltoB(),
+              icon: Icon(Icons.text_fields_rounded)),
+        ],
       ),
       body: Container(
         child: Stack(
