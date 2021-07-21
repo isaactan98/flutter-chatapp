@@ -61,6 +61,7 @@ class _ChatRoomState extends State<ChatRoom> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text('CHAT ME'),
         elevation: 0.0,
         centerTitle: false,
         actions: [

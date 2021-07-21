@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 Widget appBarMain(BuildContext context) {
   return AppBar(
     elevation: 0.0,
-    centerTitle: false,
+    centerTitle: true,
+    title: Text("CHAT ME"),
   );
 }
 

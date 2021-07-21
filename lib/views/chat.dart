@@ -23,6 +23,7 @@ class _ChatState extends State<Chat> {
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView.builder(
+                //reverse: true,
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
                   return MessageTile(
@@ -71,13 +72,16 @@ class _ChatState extends State<Chat> {
       body: Container(
         child: Stack(
           children: [
-            chatMessages(),
+            Container(
+              child: chatMessages(),
+              padding: EdgeInsets.only(bottom: 40),
+            ),
             Container(
               alignment: Alignment.bottomCenter,
               width: MediaQuery.of(context).size.width,
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 5),
-                color: Color(0x54FFFFFF),
+                color: Colors.blue,
                 child: Row(
                   children: [
                     Expanded(
@@ -100,23 +104,10 @@ class _ChatState extends State<Chat> {
                         addMessage();
                       },
                       child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [
-                                    const Color(0x36FFFFFF),
-                                    const Color(0x0FFFFFFF)
-                                  ],
-                                  begin: FractionalOffset.topLeft,
-                                  end: FractionalOffset.bottomRight),
-                              borderRadius: BorderRadius.circular(40)),
-                          padding: EdgeInsets.all(12),
-                          child: Image.asset(
-                            "assets/images/send.png",
-                            height: 25,
-                            width: 25,
-                          )),
+                          child: Icon(
+                        Icons.send,
+                        color: Colors.white,
+                      )),
                     ),
                   ],
                 ),
@@ -139,12 +130,12 @@ class MessageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-          top: 8, bottom: 8, left: sendByMe ? 0 : 24, right: sendByMe ? 24 : 0),
+          top: 3, bottom: 3, left: sendByMe ? 0 : 18, right: sendByMe ? 18 : 0),
       alignment: sendByMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         margin:
             sendByMe ? EdgeInsets.only(left: 30) : EdgeInsets.only(right: 30),
-        padding: EdgeInsets.only(top: 17, bottom: 17, left: 20, right: 20),
+        padding: EdgeInsets.only(top: 10, bottom: 10, left: 13, right: 13),
         decoration: BoxDecoration(
             borderRadius: sendByMe
                 ? BorderRadius.only(
@@ -164,7 +155,7 @@ class MessageTile extends StatelessWidget {
             textAlign: TextAlign.start,
             style: TextStyle(
                 color: Colors.white,
-                fontSize: 16,
+                fontSize: 15,
                 fontFamily: 'OverpassRegular',
                 fontWeight: FontWeight.w300)),
       ),
